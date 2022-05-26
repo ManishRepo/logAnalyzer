@@ -21,12 +21,24 @@ import com.cs.assignment.loganalysis.utility.LogAnalyzerUtil;
 import com.fasterxml.jackson.core.io.JsonEOFException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
+/**
+ * Log service with non-blocking batch based processing to persist alerts.
+ * @author Manish K Singh
+ *
+ */
 public class LogAnalyzerService {
 
 	private static Logger logger = LoggerFactory.getLogger(LogAnalyzerService.class);
 	
 	List<CompletableFuture<Void>> futureLst = new ArrayList<CompletableFuture<Void>>();
-
+	/**
+	 * Method to process log lines as JSON String in a Async way. Calculate the duration and add the log event to the batch list.
+	 * The batch selects the object from list and calls the async non-blocking thread to persist the batch.
+	 * @param lines
+	 * @return Number of alerts generated
+	 */
+	
 	public int processLogs(LineIterator lines) {
 		List<LogEventPersistModel> modellst = new ArrayList<>();
 		Map<String, LogEventMap> tempMap = new HashMap<String, LogEventMap>();
@@ -68,6 +80,11 @@ public class LogAnalyzerService {
 
 	}	
 	
+	/**
+	 * A method copies the batch list and calls the non-blocking persist process and clears the initial list for further batches
+	 * @param modellst
+	 */
+	@SuppressWarnings("unchecked")
 	public void callWorkerToPersistData(List<?> modellst) {
 		List<LogEventPersistModel> copyList = new ArrayList<LogEventPersistModel>();
 		try {
@@ -80,6 +97,13 @@ public class LogAnalyzerService {
 		}
 	}
 	
+	/**
+	 * Method that returns the future to persist the batch to database
+	 * @param modellst
+	 * @return
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 */
 	private CompletableFuture<Void> persistBatchAsync(List<?> modellst)
 			throws InterruptedException, ExecutionException {
 		CompletableFuture<Void> persistedData = CompletableFuture.runAsync(() -> {
@@ -90,20 +114,29 @@ public class LogAnalyzerService {
 		return persistedData;
 	}
 	
+	/**
+	 * Method to return all the log events on the persistent storage
+	 * @return List of LogEventPersistModel
+	 */
 	public List<LogEventPersistModel> getAllLogEvent(){
 		return LogEventAlertRepository.loadAllData(LogEventPersistModel.class);
 	}
 	
+	/**
+	 * Method to return specific log event, identified by input id
+	 * @param Id
+	 * @return LogEventPersistModel
+	 */
 	public LogEventPersistModel getLogEvent(String Id) {
 		return LogEventAlertRepository.getLogAlertByID(LogEventPersistModel.class, Id);
 	}
 
+	/**
+	 * Bean method to get the future list of all the async threads initiated.
+	 * @return
+	 */
 	public List<CompletableFuture<Void>> getFutureLst() {
 		return futureLst;
-	}
-
-	public void setFutureLst(List<CompletableFuture<Void>> futureLst) {
-		this.futureLst = futureLst;
 	}
 
 }

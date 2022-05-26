@@ -11,6 +11,11 @@ import org.junit.Test;
 import com.cs.assignment.loganalysis.data.LogEventPersistModel;
 import com.cs.assignment.loganalysis.service.LogAnalyzerService;
 
+/**
+ * The unit test class to test unit fiuunctionality
+ * @author Manish K Singh
+ *
+ */
 public class LogAlertTest {
 	
 	@Test

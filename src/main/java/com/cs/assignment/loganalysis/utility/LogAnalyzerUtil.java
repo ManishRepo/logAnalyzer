@@ -5,7 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * Class to get the application properties
+ * @author Manish K Singh
+ *
+ */
 public class LogAnalyzerUtil {
+	
 	static Properties prop = null;
 	static {
 		InputStream input = LogAnalyzerUtil.class.getResourceAsStream("/application.properties");
@@ -25,7 +31,13 @@ public class LogAnalyzerUtil {
 			}
 		}
 	}
-
+	
+	/**
+	 * Get specific property
+	 * @param propName
+	 * @return key value as string
+	 * @throws IOException
+	 */
 	public static String getProperty(String propName) throws IOException {
 		return (String) prop.get(propName);
 	}

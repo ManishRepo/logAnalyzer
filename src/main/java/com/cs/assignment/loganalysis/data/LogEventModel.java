@@ -2,6 +2,12 @@ package com.cs.assignment.loganalysis.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
+/**
+ * The model class to map log JSON strings to
+ * @author Manish K Singh
+ *
+ */
 public class LogEventModel {
 	
 	@JsonProperty("id")
@@ -57,8 +63,6 @@ public class LogEventModel {
 
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
-	}
-    
-    
+	}  
 
 }

@@ -1,5 +1,10 @@
 package com.cs.assignment.loganalysis.data;
 
+/**
+ * Model class to cache minimum value from the log JSON string for duration calculation
+ * @author Manish K Singh
+ *
+ */
 public class LogEventMap {
 	
     private String id;

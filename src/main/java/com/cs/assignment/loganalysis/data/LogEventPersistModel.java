@@ -5,6 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * The domain model that will persist into the persistent storage
+ * @author Manish K Singh
+ *
+ */
 @Entity
 @Table(name = "LogAlert")
 public class LogEventPersistModel {

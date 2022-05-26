@@ -14,6 +14,12 @@ import com.cs.assignment.loganalysis.data.LogEventPersistModel;
 import com.cs.assignment.loganalysis.service.LogAnalyzerService;
 import com.cs.assignment.loganalysis.utility.LogAnalyzerUtil;
 
+/**
+ * The Log Analyzer Application to process the log file using a service class.
+ * The Class validates the ingestion by getting all the log events persisted and counts the size.
+ * @author Manish K Singh
+ *
+ */
 public class LogAnalyzerApp {
 
 	private static Logger logger = LoggerFactory.getLogger(LogAnalyzerApp.class);
@@ -29,9 +35,7 @@ public class LogAnalyzerApp {
 			LineIterator lines = FileUtils.lineIterator(new File(LogAnalyzerApp.class.getResource(LogAnalyzerUtil.getProperty("log_file")).toURI()));
 			serviceLog.processLogs(lines);
 			List<LogEventPersistModel> persistRows = serviceLog.getAllLogEvent();
-			for (LogEventPersistModel model : persistRows) {
-				logger.info(model.getId() + " -- " + model.isAlert());
-			}
+			logger.info("Total alerts generated "+persistRows.size());
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
