@@ -10,9 +10,9 @@ import org.apache.commons.io.LineIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cs.assignment.loganalysis.data.LogEventAlertRepository;
 import com.cs.assignment.loganalysis.data.LogEventPersistModel;
 import com.cs.assignment.loganalysis.service.LogAnalyzerService;
+import com.cs.assignment.loganalysis.utility.LogAnalyzerUtil;
 
 public class LogAnalyzerApp {
 
@@ -26,11 +26,11 @@ public class LogAnalyzerApp {
 		logger.info("Read the log files to feed in events ...");
 
 		try {
-			LineIterator lines = FileUtils.lineIterator(new File(LogAnalyzerApp.class.getResource("/log.txt").toURI()));
+			LineIterator lines = FileUtils.lineIterator(new File(LogAnalyzerApp.class.getResource(LogAnalyzerUtil.getProperty("log_file")).toURI()));
 			serviceLog.processLogs(lines);
 			List<LogEventPersistModel> persistRows = serviceLog.getAllLogEvent();
 			for (LogEventPersistModel model : persistRows) {
-				System.out.println(model.getId() + " -- " + model.isAlert());
+				logger.info(model.getId() + " -- " + model.isAlert());
 			}
 
 		} catch (IOException e) {

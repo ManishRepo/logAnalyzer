@@ -10,9 +10,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class LogEventAlertRepository {
+	private static Logger logger = LoggerFactory.getLogger(LogEventAlertRepository.class);
 
 	private static final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
@@ -26,7 +29,7 @@ public class LogEventAlertRepository {
 				session.clear();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info(e.getMessage());
 		} finally {
 			tx.commit();
 			session.close();
@@ -53,6 +56,11 @@ public class LogEventAlertRepository {
 	    return data;
 	  }
 
+	public static <T> T getLogAlertByID(Class<T> type,String logId) {
+		Session session = sessionFactory.openSession();
+	    T logAlert = session.get(type, logId);
+	    return logAlert;
+	  }
 
 
 }
